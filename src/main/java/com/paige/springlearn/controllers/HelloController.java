@@ -16,7 +16,7 @@ public class HelloController {
     HttpServletRequest request;
 
     @Autowired
-    CustomHeaderProvider headerProvider;
+    CustomHeader header;
 
     @Autowired
     HelloService helloService;
@@ -26,15 +26,15 @@ public class HelloController {
 
     @RequestMapping(value = "/")
     public String index() {
-        return this.showHeader() +
-                helloService.showHeader() +
-                byeService.showHeader();
+        return  helloService.showHeader() +
+                byeService.showHeader() +
+                this.showHeader() +
+                "instance count: " + CustomHeader.getInstanceCount();
     }
 
     private String showHeader()
     {
-        CustomHeader header = headerProvider.get(request);
-        return "controller headers:<BR>" + header.getHeaders() + "<BR>" +
+        return "controller headers:<BR>" + header.getHeaders().toString() + "<BR>" +
                 "controller header id:<BR>" + header.getId() + "<BR>";
     }
 }
